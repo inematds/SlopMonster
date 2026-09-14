@@ -1,308 +1,311 @@
 # SlopMonster
 
-![The five SlopMonster mascots in a line-up, one for each rule it scores you on](docs/img/hero.png)
+![Os cinco mascotes do SlopMonster enfileirados, um para cada regra que ele pontua](docs/img/hero.png)
 
-**Turn AI-written copy into copy a human would ship.**
+**Transforme texto escrito por IA em texto que uma pessoa publicaria.**
 
-AI writing has a smell. `delve`, `seamless`, `unlock`, `it's not just a tool, it's a
-journey`. Readers catch it now, and a page that smells of it is a page they stop
-trusting.
+Texto de IA tem cheiro. `delve`, `seamless`, `unlock`, `it's not just a tool, it's a
+journey`. O leitor já percebe, e uma página com esse cheiro é uma página em que ele
+para de confiar.
 
-Most tools that fix this are built on the same public research. This one adds the two
-things the others skip.
+A maioria das ferramentas que corrige isso nasce da mesma pesquisa pública. Esta
+acrescenta as duas coisas que as outras pulam.
 
-**It scores your copy out of 5 and it can fail your build.** No opinions, no vibes, just
-patterns. Developers call this a linter. Everyone else can call it a checker that will
-not let you ship.
+**Ela dá uma nota de 0 a 5 ao seu texto e pode derrubar o seu build.** Sem opinião, sem
+achismo, só padrões. Desenvolvedor chama isso de linter. Todo mundo pode chamar de um
+verificador que não deixa você publicar.
 
-**A rival model does the cleaning.** If Claude wrote the draft, GPT cleans it. A model
-cannot hear its own accent, the same way you cannot hear yours.
+**Um modelo rival faz a limpeza.** Se o Claude escreveu o rascunho, o GPT limpa. Um modelo
+não escuta o próprio sotaque, do mesmo jeito que você não escuta o seu.
 
-Works on landing pages, READMEs, emails and scripts. Anything a person is going to read
-and judge.
+Funciona em landing pages, READMEs, e-mails e roteiros. Qualquer coisa que uma pessoa vai
+ler e julgar.
 
-## The loop
+## O ciclo
 
 ```
-1. SCORE     tools/deslop.py     marks it out of 5, exits red below 5. Patterns, no opinions.
-2. REWRITE   three passes        kill the vocabulary → kill the shapes → put a person back in
-3. CLEANSE   tools/cleanse.sh    a different model family strips the tells the first one wrote
-4. RESCORE   tools/deslop.py     ship only at 5/5
+1. PONTUAR   tools/deslop.py     dá nota de 0 a 5, sai em vermelho abaixo de 5. Padrões, sem opinião.
+2. REESCREVER três passadas       mata o vocabulário → mata as formas → coloca uma pessoa de volta
+3. LIMPAR    tools/cleanse.sh    uma família de modelo diferente tira as marcas que a primeira deixou
+4. REPONTUAR tools/deslop.py     só publica em 5/5
 ```
 
-The scorer gets the first word and the last word, because the scorer is honest and the
-model is persuasive. "Mostly clean" is how a page ends up sounding like every other AI page on
-the internet.
+O pontuador tem a primeira e a última palavra, porque o pontuador é honesto e o modelo é
+persuasivo. "Quase limpo" é como uma página acaba soando igual a todas as outras páginas
+de IA da internet.
 
-## Receipts, not claims
+## Recibos, não promessas
 
-A real run on seven verbatim sentences of Jasper.ai's live homepage (29 Aug 2026):
+Uma rodada real em sete frases literais da home do Jasper.ai (29 ago 2026):
 
-| | score |
+| | nota |
 |---|---|
-| Their copy, as fetched | **3/5** — `unlock`, `empower`, four rule-of-three lists |
-| After one pass through this loop | **5/5** — meaning intact, length within 10%, nothing invented |
+| O texto deles, como foi baixado | **3/5**, com `unlock`, `empower` e quatro listas de três |
+| Depois de uma passada por este ciclo | **5/5**, sentido intacto, tamanho dentro de 10%, nada inventado |
 
-Every command and its exact output: [`examples/jasper-live-run.md`](examples/jasper-live-run.md).
-Their copy is quoted for criticism and remains theirs; the MIT licence below covers this
-repo's own code and prose.
+Cada comando e sua saída exata: [`examples/jasper-live-run.md`](examples/jasper-live-run.md).
+O texto deles é citado para fins de crítica e continua sendo deles. A licença MIT abaixo
+cobre o código e a prosa deste repositório.
 
-## Quick start
+## Início rápido
 
 ```bash
-git clone https://github.com/ItsssssJack/SlopMonster && cd SlopMonster
+git clone https://github.com/inematds/SlopMonster && cd SlopMonster
 
-# score anything
+# pontuar qualquer coisa
 python3 tools/deslop.py --text "It's not just a tool, it's a game-changing journey."
-# → score 3/5, names both tells, exits 1
+# → score 3/5, aponta as duas marcas, sai com código 1
 
-# score a built page (reads only what a visitor can SEE)
+# pontuar uma página pronta (lê só o que o visitante ENXERGA)
 python3 tools/deslop.py index.html
 
-# score a markdown file (skips code spans, fenced blocks and struck-through text)
+# pontuar um arquivo markdown (pula trechos de código, blocos cercados e texto riscado)
 python3 tools/deslop.py README.md
 
-# cleanse a draft with a rival model, then re-score
-tools/cleanse.sh draft.md > cleansed.md
-python3 tools/deslop.py --text "$(cat cleansed.md)"
+# limpar um rascunho com um modelo rival e repontuar
+tools/cleanse.sh rascunho.md > limpo.md
+python3 tools/deslop.py --text "$(cat limpo.md)"
 
-# your numbers are real and you can evidence them? stop the proof rule blocking the build
+# seus números são reais e você consegue provar? impede a regra de prova de travar o build
 python3 tools/deslop.py index.html --allow-proof
 
-# changed a regex? this is what catches a silently half-blind catalogue
+# mexeu numa regex? isto é o que pega um catálogo que ficou meio cego em silêncio
 python3 tools/test_deslop.py
 ```
 
-The catalogue is English only. Copy in another language scores 5/5 because the scorer
-cannot read it, not because it is clean.
+**O catálogo é só em inglês.** Texto em outra língua, inclusive português, recebe 5/5
+porque o pontuador não consegue ler, não porque está limpo. O passo de limpeza com modelo
+rival funciona em qualquer língua, mas a nota só vale para texto em inglês.
 
-No dependencies. The scorer is stdlib Python. The cleanse script needs one AI CLI
-(`codex` or `claude`), or neither, in which case it prints the prompt for you to paste.
-`.github/workflows/slop.yml` is the build gate, ready to copy into your own repo.
+Sem dependências. O pontuador é Python puro, biblioteca padrão. O script de limpeza precisa
+de uma CLI de IA (`codex` ou `claude`), ou de nenhuma, e nesse caso ele imprime o prompt
+para você colar. O arquivo `.github/workflows/slop.yml` é o portão de build, pronto para
+copiar no seu próprio repositório.
 
-### Install as an agent skill
+### Instalar como skill de agente
 
-**Claude Code:** copy this folder to `~/.claude/skills/slopmonster/`, then say `/slopmonster` or
-"de-slop this". **Codex / other agents:** point the agent at `SKILL.md` — it is
-plain-markdown instructions, nothing Claude-specific.
+**Claude Code:** copie esta pasta para `~/.claude/skills/slopmonster/` e diga `/slopmonster`,
+"tira o slop disso" ou "de-slop this". **Codex e outros agentes:** aponte o agente para o
+`SKILL.md`. São instruções em markdown puro, nada específico do Claude.
 
-## The cleanse is model-aware
+## A limpeza sabe qual modelo escreveu
 
-The rule: the cleanse runs on a **different model family** than the one that wrote the
-draft. Different families have different accents, and a model is poor at hearing its own.
+A regra: a limpeza roda numa **família de modelo diferente** da que escreveu o rascunho.
+Famílias diferentes têm sotaques diferentes, e um modelo é ruim em ouvir o próprio.
 
-| You work in | Draft's accent | `cleanse.sh` does |
+| Você trabalha em | Sotaque do rascunho | O `cleanse.sh` faz |
 |---|---|---|
-| Claude Code | Anthropic | calls **GPT-5.6** via your `codex` CLI, time-bound, read-only sandbox |
-| Codex / ChatGPT | OpenAI | set `DESLOP_WRITER=gpt` and it calls **Claude** via `claude -p` |
-| Gemini CLI | Google | whichever rival CLI is installed |
-| no rival CLI | n/a | prints the full prompt to paste into the other family's chat |
+| Claude Code | Anthropic | chama o **GPT-5.6** pela sua CLI `codex`, com tempo limite e sandbox só leitura |
+| Codex / ChatGPT | OpenAI | com `DESLOP_WRITER=gpt` ele chama o **Claude** via `claude -p` |
+| Gemini CLI | Google | a CLI rival que estiver instalada |
+| nenhuma CLI rival | n/a | imprime o prompt completo para colar no chat da outra família |
 
-It refuses to route a draft back to its own family. A model marking its own homework is
-the one thing this step exists to prevent.
+Ele se recusa a mandar um rascunho de volta para a própria família. Modelo corrigindo a
+própria prova é exatamente o que este passo existe para evitar.
 
-Then it re-lints, always: a frontier model is very good at removing tells and quite
-capable of adding new ones while it does.
+Depois ele repontua, sempre: um modelo de ponta é muito bom em tirar marcas e bem capaz de
+colocar outras novas enquanto faz isso.
 
-## What the scorer hunts
+## O que o pontuador caça
 
-Five groups. Trip one and you lose a point. Below 5/5 the command exits red, so a build can
-stop on it.
+Cinco grupos. Cai em um e perde um ponto. Abaixo de 5/5 o comando sai em vermelho, então
+um build pode parar nele.
 
-Four groups strip the AI accent. The fifth asks whether the line sells anything.
+Quatro grupos tiram o sotaque de IA. O quinto pergunta se a linha vende alguma coisa.
 
-Every before and after below is a real line from the Ridgeline Roofing build. Struck
-through is what the first draft said. Bold is what shipped. The full record:
+Cada antes e depois abaixo é uma linha real do site da Ridgeline Roofing. Riscado é o que
+o primeiro rascunho dizia. Negrito é o que foi publicado. O registro completo:
 [`examples/ridgeline-roofing.md`](examples/ridgeline-roofing.md).
 
-Every specimen on this page sits in `code formatting` or is struck through. That is not
-decoration. A literal is not copy, so `deslop.py` skips both when it reads a `.md` file,
-which is how this README passes the scorer it documents.
+Cada exemplo nesta página está em `formato de código` ou riscado. Isso não é decoração. Um
+literal não é texto de venda, então o `deslop.py` pula os dois quando lê um arquivo `.md`.
 
-![Rule 1, AI vocabulary: delve, leverage, seamless, unlock](docs/img/rule-1-vocab.png)
+![Regra 1, vocabulário de IA: delve, leverage, seamless, unlock](docs/img/rule-1-vocab.png)
 
-**1. AI vocabulary.** Words that turn up far more in AI writing than in human writing.
+**1. Vocabulário de IA.** Palavras que aparecem muito mais em texto de IA do que em texto
+humano.
 
-There are two lists and they work differently.
+São duas listas, e elas funcionam de jeitos diferentes.
 
-The first list is matched by root. So `elevate` also catches `elevates`, `elevated` and
-`elevating`. This matters more than it sounds. Sales pages are written in the third person.
-`Acme elevates your workflow` is the commonest form of the word, and exact matching
-walked straight past it.
+A primeira lista casa pela raiz. Então `elevate` também pega `elevates`, `elevated` e
+`elevating`. Isso importa mais do que parece. Página de vendas é escrita na terceira pessoa.
+`Acme elevates your workflow` é a forma mais comum da palavra, e a busca exata passava
+direto por ela.
 
-The second list holds words that have an honest everyday meaning too. `crafted`, `harness`,
-`landscape`, `journey`. Those are matched word for word instead. So "we craft furniture by
-hand" stays clean, and only the marketing use gets caught.
+A segunda lista tem palavras que também têm um sentido honesto no dia a dia. `crafted`,
+`harness`, `landscape`, `journey`. Essas são casadas palavra por palavra. Assim "we craft
+furniture by hand" continua limpo, e só o uso de marketing é pego.
 
-The fix is a plainer word. Not a posher synonym for the same idea.
+A correção é uma palavra mais simples. Não um sinônimo mais chique para a mesma ideia.
 
 > ~~We leverage industry-leading materials to deliver unparalleled protection.~~
 > **We source materials from manufacturers who test for wind, hail and sun.**
-> `leverage`, `deliver`, `unparalleled`. Every one of them means nothing and costs a line.
+> `leverage`, `deliver`, `unparalleled`. Nenhuma delas diz nada, e cada uma custa uma linha.
 
-![Rule 2, AI constructions: "not just a tool, it's a journey"](docs/img/rule-2-phrases.png)
+![Regra 2, construções de IA: "not just a tool, it's a journey"](docs/img/rule-2-phrases.png)
 
-**2. AI constructions.** This group catches sentence shapes, not single words.
+**2. Construções de IA.** Este grupo pega formas de frase, não palavras isoladas.
 
-A shape is a pattern you can fill with anything. `not just X, but Y` is the loudest one in
-English right now. Once you see it you cannot stop seeing it.
+Uma forma é um molde que você preenche com qualquer coisa. `not just X, but Y` é o mais
+barulhento do inglês hoje. Depois que você vê, não consegue mais deixar de ver.
 
-There are 17 shapes in the list. Things like `that's where X comes in`, `say goodbye to`
-and `whether you're X or Y`, stacked hedges such as `could potentially`, and questions
-the writer then answers themselves.
+Há 17 formas na lista. Coisas como `that's where X comes in`, `say goodbye to` e
+`whether you're X or Y`, pilhas de ressalva como `could potentially`, e perguntas que o
+autor responde sozinho.
 
-Both the short and long forms are checked, "it's" and "it is". Formal register is not a
-clever disguise. It is the default thing a model writes.
+As formas curta e longa são checadas, "it's" e "it is". Registro formal não é disfarce
+esperto. É o padrão do que um modelo escreve.
 
-Shapes are worth more than words, because a page can pass a vocabulary check and still read
-like a machine wrote it.
+Formas valem mais que palavras, porque uma página pode passar num teste de vocabulário e
+ainda parecer escrita por máquina.
 
 > ~~Not just a roof, but peace of mind.~~
 > **A written scope and a fixed number before anyone climbs a ladder.**
-> The shape promises a reveal, then hands you an abstraction.
+> A forma promete uma revelação e entrega uma abstração.
 
-![Rule 3, punctuation cadence: two em dashes in one sentence](docs/img/rule-3-punctuation.png)
+![Regra 3, cadência de pontuação: dois travessões numa frase](docs/img/rule-3-punctuation.png)
 
-**3. Punctuation cadence.** Two em dashes inside one sentence.
+**3. Cadência de pontuação.** Dois travessões dentro de uma mesma frase.
 
-One dash in a paragraph is punctuation. Three is a tic. Models reach for them at roughly
-three to five times the human rate.
+Um travessão num parágrafo é pontuação. Três é tique. Modelos usam travessão numa taxa de
+três a cinco vezes a de um humano.
 
-The check only looks inside a 220 character window, and that limit is doing real work.
-Interface text has no full stops. Nav items, buttons and labels all run together, so a
-naive sentence split treats a whole page as one sentence and the rule then fires on
-everything. A scorer that cries wolf gets switched off, so the window stays.
+A checagem só olha dentro de uma janela de 220 caracteres, e esse limite faz trabalho de
+verdade. Texto de interface não tem ponto final. Itens de menu, botões e rótulos se
+emendam, então uma quebra de frase ingênua trata a página inteira como uma frase só e a
+regra dispara em tudo. Um pontuador que grita lobo é desligado, então a janela fica.
 
-Semicolons are counted too, but only past a floor of three, scaled to the length of the
-page. Two semicolons in a long technical document is a style, not a tell.
+Ponto e vírgula também conta, mas só acima de um piso de três, proporcional ao tamanho da
+página. Dois pontos e vírgula num documento técnico longo é estilo, não marca.
 
 > ~~Our team — trained, certified and local — is ready to help.~~
 > **Thirty-eight on the crew, factory-trained for every material we install.**
-> The dashes were hiding the fact that the sentence had no information in it.
+> Os travessões escondiam que a frase não tinha informação nenhuma.
 
-![Rule 4, rule-of-three rhythm: "faster, smarter, and better"](docs/img/rule-4-rhythm.png)
+![Regra 4, ritmo de três: "faster, smarter, and better"](docs/img/rule-4-rhythm.png)
 
-**4. Rule-of-three rhythm.** Three items in a row. `faster, smarter, and better`.
+**4. Ritmo de três.** Três itens em sequência. `faster, smarter, and better`.
 
-Three adjectives is a rhythm, not an argument. One tricolon is rhetoric. Three of them on a
-page is a machine. A tricolon is just the posh name for a three-item list.
+Três adjetivos é ritmo, não argumento. Um tricolon é retórica. Três deles numa página é
+máquina. Tricolon é só o nome chique de uma lista de três itens.
 
-This check is deliberately narrow, and only two shapes fire it. With the Oxford comma it
-needs three single words. Without it, the third item has to be a short phrase that ends the
-clause.
+Esta checagem é estreita de propósito, e só duas formas a disparam. Com a vírgula de Oxford,
+precisa de três palavras soltas. Sem ela, o terceiro item tem que ser uma frase curta que
+fecha a oração.
 
-The narrowness is the point. "Inspection, repair and replacement for homes and commercial
-buildings" is three real things a roofer does, and it scores clean. Flagging that would be
-crying wolf, and the next person would turn the scorer off.
+A estreiteza é o ponto. "Inspection, repair and replacement for homes and commercial
+buildings" são três coisas reais que um telhadista faz, e passa limpo. Marcar isso seria
+gritar lobo, e a próxima pessoa desligaria o pontuador.
 
 > ~~Trusted, reliable and built to last.~~
 > **Six nails per shingle, every shingle.**
-> One specification beats three adjectives every time. Nobody invents a line like that,
-> because invented copy does not know it.
+> Uma especificação ganha de três adjetivos toda vez. Ninguém inventa uma linha dessas,
+> porque texto inventado não sabe disso.
 
-![Rule 5, sales and marketing: the rewrite built on Krug, Priestley and Hormozi](docs/img/rule-5-conversion.png)
+![Regra 5, vendas e marketing: a reescrita baseada em Krug, Priestley e Hormozi](docs/img/rule-5-conversion.png)
 
-**5. Sales & marketing.** The first four rules get the robot out. This one asks the harder
-question. Does the line sell anything?
+**5. Vendas e marketing.** As quatro primeiras regras tiram o robô. Esta faz a pergunta
+mais difícil. A linha vende alguma coisa?
 
-Clean copy that says nothing is still a dead page. Two things run here.
+Texto limpo que não diz nada continua sendo página morta. Duas coisas rodam aqui.
 
-**The hard rule: never invent proof.** No customer counts, no testimonials, no ratings the
-business has not earned. The scorer flags any number sitting next to a people-noun, like
-`10,000+ happy users`. It is deliberately trigger-happy. A false alarm costs you ten
-seconds. A miss puts a claim on your site that you cannot back. If your number is real and
-you can evidence it, `--allow-proof` drops it to a warning and still prints the hits.
+**A regra dura: nunca inventar prova.** Nada de contagem de clientes, depoimentos ou
+avaliações que o negócio não conquistou. O pontuador marca qualquer número ao lado de um
+substantivo de gente, como `10,000+ happy users`. Ele dispara fácil de propósito. Um alarme
+falso custa dez segundos. Um erro deixa no seu site uma afirmação que você não sustenta. Se
+o número é real e você consegue provar, `--allow-proof` rebaixa para aviso e ainda imprime
+os acertos.
 
-Fake proof is a sales failure before it is a writing failure. Nobody buys from a page they
-have caught lying.
+Prova falsa é uma falha de vendas antes de ser uma falha de escrita. Ninguém compra de uma
+página que pegou mentindo.
 
 > ~~Loved by 10,000+ happy homeowners.~~
 > **Project names and photography are placeholders. Swap in your own jobs before this goes live.**
-> Say the slot is empty. It reads as confidence, not weakness.
+> Diga que o espaço está vazio. Soa como confiança, não como fraqueza.
 
 > ~~The area's most trusted roofing experts.~~
 > **Roofing, and only roofing, since 2001.**
-> "Most trusted" cannot be checked, so the reader discounts it. A date cannot be argued with.
+> "Mais confiável" não dá para checar, então o leitor desconta. Uma data não tem como discutir.
 
-**Where the lines come from.** Four sources. If a sentence cannot name its source, it does
-not go on the page.
+**De onde as linhas vêm.** Quatro fontes. Se uma frase não consegue dizer sua fonte, ela
+não entra na página.
 
-1. **What the trade actually does.** The strongest source by a mile. "Six nails per
-   shingle" is a real specification with a real failure mode behind it.
-2. **What the customer already fears.** That the price will move. That the yard will be
-   wrecked. That they are being sold a whole roof for a flashing problem.
-3. **What the competition will not say.** Refusals travel further than promises. "We do not
-   do overlays" positions you and disqualifies the wrong customer in one line.
-4. **The lines that were already good.** "From first call to final nail" arrived written in
-   the wireframe and beat every rewrite. It stayed.
+1. **O que o ofício faz de verdade.** A fonte mais forte, de longe. "Seis pregos por telha"
+   é uma especificação real com um modo de falha real por trás.
+2. **O que o cliente já teme.** Que o preço vai mudar. Que o quintal vai ficar destruído.
+   Que estão vendendo um telhado inteiro para um problema de rufo.
+3. **O que a concorrência não vai dizer.** Recusa viaja mais longe que promessa. "Não fazemos
+   sobreposição" posiciona você e desqualifica o cliente errado numa linha só.
+4. **As linhas que já eram boas.** "From first call to final nail" chegou escrita no
+   wireframe e ganhou de toda reescrita. Ficou.
 
-**The named work behind the rewrite:**
+**O trabalho nomeado por trás da reescrita:**
 
-| Who | What this takes |
+| Quem | O que isso pede |
 |---|---|
-| **Steve Krug**, *Don't Make Me Think* (2000) | every line the reader has to decode is a line they skip |
-| **Daniel Priestley**, pitch order | open on the problem and the insight, never the product |
-| **Alex Hormozi**, the offer side | named pain, checkable specificity, proof you actually own |
+| **Steve Krug**, *Don't Make Me Think* (2000) | cada linha que o leitor precisa decifrar é uma linha que ele pula |
+| **Daniel Priestley**, ordem do pitch | abre no problema e no insight, nunca no produto |
+| **Alex Hormozi**, o lado da oferta | dor nomeada, especificidade checável, prova que você tem de fato |
 
-Those three plus the category benchmark become five working principles, each with a real
-before and after: [`references/principles.md`](references/principles.md).
+Esses três mais o benchmark da categoria viram cinco princípios de trabalho, cada um com um
+antes e depois real: [`references/principles.md`](references/principles.md).
 
-## What goes in the tells' place
+## O que entra no lugar das marcas
 
-Clean is not the same as good. Five principles decide what the line says instead —
-Krug's *Don't Make Me Think*, Priestley's problem-first pitch order, and the
-specificity-over-superlatives argument Hormozi makes from the offer side. Each with a
-real before/after: [`references/principles.md`](references/principles.md).
+Limpo não é o mesmo que bom. Cinco princípios decidem o que a linha diz no lugar: o
+*Don't Make Me Think* do Krug, a ordem de pitch do Priestley que abre no problema, e o
+argumento do Hormozi, pelo lado da oferta, de que especificidade vence superlativo. Cada
+um com um antes e depois real: [`references/principles.md`](references/principles.md).
 
-## A full worked example
+## Um exemplo completo
 
-The Ridgeline Roofing build: a Lorem-ipsum wireframe to a shipped site, with every
-headline's before → after, the six tells caught in first drafts, and the verify-or-mark
-pass on every number. This is the file that teaches:
+O site da Ridgeline Roofing: de um wireframe em Lorem ipsum a um site publicado, com o
+antes → depois de cada título, as seis marcas pegas nos primeiros rascunhos e a passada de
+verificar-ou-marcar em cada número. Este é o arquivo que ensina:
 [`examples/ridgeline-roofing.md`](examples/ridgeline-roofing.md).
 
 > ~~The area's most trusted roofing experts.~~
 > **Roofing, and only roofing, since 2001.**
-> "Most trusted" is unfalsifiable, so the reader discounts it entirely. A date cannot be argued with.
+> "Mais confiável" não é falseável, então o leitor desconta inteiro. Uma data não tem como discutir.
 
-## The one hard rule
+## A única regra dura
 
-**Never invent proof.** No user counts, no testimonials, no ratings you have not earned.
-If a claim needs a number you do not have, write `[needs number]` and move on. The lift
-from a fabricated number is smaller than the lift from real specificity, and it is the
-one mistake with no route back.
+**Nunca inventar prova.** Nada de contagem de usuários, depoimentos ou avaliações que você
+não conquistou. Se uma afirmação precisa de um número que você não tem, escreva
+`[needs number]` e siga em frente. O ganho de um número inventado é menor que o ganho de
+uma especificidade real, e é o único erro sem volta.
 
-And this skill will never claim to "beat AI detectors". Detectors are noise. The target
-is a human reader's gut.
+E esta skill nunca vai prometer "enganar detectores de IA". Detector é ruído. O alvo é o
+instinto de um leitor humano.
 
-This file passes its own scorer. `python3 tools/deslop.py README.md` scores **5/5**, and
-it is the same catalogue and the same regexes that score your landing page. Nothing was
-softened to get there. The specimens are marked as literals, in `code` or struck through,
-and the prose around them had to be written clean like anything else.
+Sobre este arquivo: `python3 tools/deslop.py README.md` dá **5/5**, mas com uma ressalva
+honesta. Os exemplos em inglês estão marcados como literais, em `código` ou riscados, e o
+pontuador pula os dois. A prosa em volta está em português, e o catálogo não lê português.
+A versão original em inglês deste README passava no próprio pontuador sem nada suavizado.
 
-## What this is built on
+## Em que isto se apoia
 
-All sources named in [`references/sources.md`](references/sources.md):
-Wikipedia's *Signs of AI writing* (WikiProject AI Cleanup) as the canonical catalogue,
-plus four MIT-licensed open-source humanizers: `blader/humanizer`,
+Todas as fontes estão em [`references/sources.md`](references/sources.md):
+o *Signs of AI writing* da Wikipedia (WikiProject AI Cleanup) como catálogo canônico,
+mais quatro humanizadores open source sob MIT: `blader/humanizer`,
 `harshaneel/humanize`, `lguz/humanize-writing-skill`, `haidrrrry/humanize-ai-writing`.
-The rewrite principles come from Krug, Priestley and Hormozi. Detector-bypass repos are
-deliberately excluded.
+Os princípios de reescrita vêm de Krug, Priestley e Hormozi. Repositórios de burlar
+detector ficam de fora de propósito.
 
-## Repo map
+## Mapa do repositório
 
 ```
-SKILL.md                            the agent skill — the whole loop as instructions
-tools/deslop.py                     the scorer. stdlib, no deps, exits red below 5/5
-tools/test_deslop.py                regression suite. run it after touching any regex
-tools/cleanse.sh                    rival-model cleanse, auto-routed, time-bound
-.github/workflows/slop.yml          the build gate, ready to copy
-prompts/cleanse.txt                 the exact instruction the cleanse model gets
-references/signs-of-ai-writing.md   the full catalogue: 2 vocab tiers, 8 shapes, cadence, rhythm, proof
-references/principles.md            the five rewrite principles, each with a real pair
-references/sources.md               every source this stands on
-examples/ridgeline-roofing.md       full site build, every line before → after
-examples/jasper-live-run.md         unedited live run: 3/5 → 5/5 on a real page
+SKILL.md                            a skill de agente, o ciclo inteiro como instruções
+tools/deslop.py                     o pontuador. biblioteca padrão, sem deps, sai em vermelho abaixo de 5/5
+tools/test_deslop.py                suíte de regressão. rode depois de mexer em qualquer regex
+tools/cleanse.sh                    limpeza com modelo rival, roteada sozinha, com tempo limite
+.github/workflows/slop.yml          o portão de build, pronto para copiar
+prompts/cleanse.txt                 a instrução exata que o modelo de limpeza recebe
+references/signs-of-ai-writing.md   o catálogo completo: 2 níveis de vocabulário, 8 formas, cadência, ritmo, prova
+references/principles.md            os cinco princípios de reescrita, cada um com um par real
+references/sources.md               cada fonte em que isto se apoia
+examples/ridgeline-roofing.md       site completo, cada linha antes → depois
+examples/jasper-live-run.md         rodada real sem edição: 3/5 → 5/5 numa página de verdade
 ```
 
-MIT. Same as the humanizers it stands on.
+MIT. A mesma dos humanizadores em que se apoia.

@@ -166,7 +166,7 @@ def read_utf8(path):
     from a file path, and the file path is what CI wires in.
 
     A gate that passes because it cannot read is worse than no gate at all.
-    Reported by @Azrael259 in #3, who hit it on Windows.
+    Reported by a Windows user who hit it in the wild.
     """
     return open(path, encoding='utf-8', errors='replace').read()
 

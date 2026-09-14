@@ -1,104 +1,113 @@
 ---
 name: slopmonster
-description: Turn AI-written copy into copy a human would ship. Lint for AI tells, rewrite, cleanse with a rival model, lint again. Trigger on /slopmonster, "humanize this", "de-slop this", "does this sound like AI", "fix this copy".
+description: Transforma texto escrito por IA em texto que uma pessoa publicaria. Aponta as marcas de IA, reescreve, limpa com um modelo rival, aponta de novo. Dispara em /slopmonster, "humaniza isso", "tira o slop disso", "isso parece IA?", "arruma esse texto", "humanize this", "de-slop this", "does this sound like AI", "fix this copy".
 ---
 
 # SlopMonster
 
-Take any draft and make it read like a person wrote it. A landing page, a README, an
-email, a script. The target is not "passes a detector". Detectors are noise, and chasing them makes prose
-worse. The target is the gut of a reader who has seen a thousand AI paragraphs this month.
+Pegue qualquer rascunho e faça ele parecer escrito por uma pessoa. Uma landing page, um
+README, um e-mail, um roteiro. O alvo não é "passar num detector". Detector é ruído, e
+correr atrás dele piora a prosa. O alvo é o instinto de um leitor que já viu mil parágrafos
+de IA este mês.
 
-The loop is always the same four steps, and the linter gets the first and last word,
-because the linter is honest and the model is persuasive.
+O ciclo é sempre o mesmo, quatro passos, e o linter tem a primeira e a última palavra,
+porque o linter é honesto e o modelo é persuasivo.
 
 ```
-1. LINT      python3 tools/deslop.py --text "…"      score /5, exits red below 5
-2. REWRITE   three passes, by hand or by model       (see below)
-3. CLEANSE   a DIFFERENT model family strips tells   tools/cleanse.sh
-4. RE-LINT   python3 tools/deslop.py again           ship only at 5/5
+1. PONTUAR     python3 tools/deslop.py --text "…"    nota /5, sai em vermelho abaixo de 5
+2. REESCREVER  três passadas, à mão ou por modelo     (ver abaixo)
+3. LIMPAR      uma família de modelo DIFERENTE tira as marcas   tools/cleanse.sh
+4. REPONTUAR   python3 tools/deslop.py de novo        só publica em 5/5
 ```
 
-## Step 1 — Lint
+**O catálogo do linter é só em inglês.** Texto em português recebe 5/5 porque o linter não
+lê a língua, não porque está limpo. Para texto em português, os passos 2 e 3 valem por
+inteiro (as marcas têm equivalente direto em português), mas a nota dos passos 1 e 4 só
+tem valor em texto em inglês.
+
+## Passo 1: Pontuar
 
 ```bash
-python3 tools/deslop.py page.html              # a built page (scores visible text only)
-python3 tools/deslop.py page.html --view hero  # one element by id
-python3 tools/deslop.py --text "paste a draft"
-python3 tools/deslop.py page.html --allow-proof  # numbers are real and evidenced
+python3 tools/deslop.py pagina.html              # uma página pronta (pontua só o texto visível)
+python3 tools/deslop.py pagina.html --view hero  # um elemento pelo id
+python3 tools/deslop.py --text "cole um rascunho"
+python3 tools/deslop.py pagina.html --allow-proof  # os números são reais e comprovados
 ```
 
-Regex, no opinions. Five groups, one point each: AI vocabulary, AI constructions,
-punctuation cadence, rule-of-three rhythm, invented proof. Below 5/5 it exits non-zero, so
-it works as a build gate. "Mostly clean" is how a page ends up sounding like every other
-AI page on the internet.
+Regex, sem opinião. Cinco grupos, um ponto cada: vocabulário de IA, construções de IA,
+cadência de pontuação, ritmo de três, prova inventada. Abaixo de 5/5 ele sai com código
+diferente de zero, então funciona como portão de build. "Quase limpo" é como uma página
+acaba soando igual a todas as outras páginas de IA da internet.
 
-Empty input fails rather than passing. A cleanse that times out leaves a zero-byte file,
-and a gate that stamps that CLEAN reports slop as clean exactly when the pipeline broke.
+Entrada vazia falha em vez de passar. Uma limpeza que estoura o tempo deixa um arquivo de
+zero bytes, e um portão que carimba isso como LIMPO reporta slop como limpo exatamente
+quando o pipeline quebrou.
 
-Touching a regex means running `python3 tools/test_deslop.py`. The catalogue is matched by
-word root, and the obvious stemming shortcut silently kills a dozen base words.
+Mexeu numa regex, rode `python3 tools/test_deslop.py`. O catálogo casa pela raiz da
+palavra, e o atalho óbvio de stemming mata uma dúzia de palavras base em silêncio.
 
-## Step 2 — Rewrite (three passes)
+## Passo 2: Reescrever (três passadas)
 
-Full catalogue in `references/signs-of-ai-writing.md`. The short version:
+Catálogo completo em `references/signs-of-ai-writing.md`. A versão curta:
 
-1. **Kill the vocabulary.** `delve`, `seamless`, `robust`, `unlock`, `elevate`,
-   `leverage`, `game-changing`, `journey`, `realm`… Replace with a plainer word, not a
-   synonym of the same word.
-2. **Kill the shapes.** `not just X, but Y` is the single loudest tell in English right
-   now. Also the `rule-of-three` reflex, `em-dash` pile-ups, hedge stacks, symmetrical
-   paragraphs, the closing summary nobody asked for, and a bold lead on every bullet.
-3. **Put a person back in.** Removing tells leaves clean, dead copy. One specific number
-   per claim. Sentence lengths that vary hard. One thing a cautious writer would have cut.
-   One rough edge — a contraction, a fragment, a sentence starting with "And".
+1. **Mate o vocabulário.** `delve`, `seamless`, `robust`, `unlock`, `elevate`,
+   `leverage`, `game-changing`, `journey`, `realm`… Troque por uma palavra mais simples, não
+   por um sinônimo da mesma palavra.
+2. **Mate as formas.** `not just X, but Y` é a marca mais barulhenta do inglês hoje. Também
+   o reflexo do `rule-of-three`, o empilhamento de `em-dash`, pilhas de ressalva, parágrafos
+   simétricos, o resumo de fechamento que ninguém pediu, e negrito abrindo cada bullet.
+3. **Coloque uma pessoa de volta.** Tirar as marcas deixa um texto limpo e morto. Um número
+   específico por afirmação. Tamanhos de frase que variam de verdade. Uma coisa que um autor
+   cauteloso teria cortado. Uma aresta: uma contração, um fragmento, uma frase começando com
+   "E".
 
-## Step 3 — Cleanse with a rival model
+## Passo 3: Limpar com um modelo rival
 
-A model is bad at hearing its own accent. A rival model hears it instantly. So the cleanse
-runs on a **different model family** than the one that wrote the draft:
+Um modelo é ruim em ouvir o próprio sotaque. Um modelo rival ouve na hora. Então a limpeza
+roda numa **família de modelo diferente** da que escreveu o rascunho:
 
-| You are working in | The draft's accent | Cleanse with |
+| Você está trabalhando em | Sotaque do rascunho | Limpar com |
 |---|---|---|
-| Claude Code / Claude | Anthropic | GPT-5.6 via the codex CLI — `tools/cleanse.sh` does this |
-| Codex / ChatGPT | OpenAI | Claude via `claude -p`, or set `DESLOP_WRITER=gpt` for `cleanse.sh` |
-| Gemini CLI | Google | Either CLI; `cleanse.sh` picks whichever is installed |
-| No CLI at all | — | `cleanse.sh` prints the prompt; paste it into the other family's chat |
+| Claude Code / Claude | Anthropic | GPT-5.6 pela CLI codex. O `tools/cleanse.sh` faz isso |
+| Codex / ChatGPT | OpenAI | Claude via `claude -p`, ou defina `DESLOP_WRITER=gpt` para o `cleanse.sh` |
+| Gemini CLI | Google | Qualquer uma das CLIs. O `cleanse.sh` escolhe a que estiver instalada |
+| Nenhuma CLI | n/a | O `cleanse.sh` imprime o prompt. Cole no chat da outra família |
 
 ```bash
-tools/cleanse.sh draft.md > cleansed.md                 # copy out, notes on stderr
-tools/cleanse.sh draft.md > cleansed.md 2> notes.txt    # keep the notes as well
+tools/cleanse.sh rascunho.md > limpo.md                 # texto na saída, notas no stderr
+tools/cleanse.sh rascunho.md > limpo.md 2> notas.txt    # guarda as notas também
 ```
 
-The instruction it carries (`prompts/cleanse.txt`): strip the tells, keep every fact,
-keep the length within 10%, invent nothing.
+A instrução que ele carrega (`prompts/cleanse.txt`): tire as marcas, mantenha cada fato,
+mantenha o tamanho dentro de 10%, não invente nada.
 
-It returns **two things**. The rewritten copy, then a `<<<SLOPMONSTER-NOTES>>>` line, then up
-to five bullets naming each tell and its fix. The script splits them, so **stdout is copy and
-stderr is notes**, and the redirect above writes prose only.
+Ele devolve **duas coisas**. O texto reescrito, depois uma linha `<<<SLOPMONSTER-NOTES>>>`,
+depois até cinco bullets nomeando cada marca e sua correção. O script separa os dois, então
+**stdout é texto e stderr é notas**, e o redirecionamento acima grava só prosa.
 
-Read the notes. PASS 2 tells the model to stop at the last real point, so it will sometimes
-delete your closing line, and the notes are the only place it says so.
+Leia as notas. A PASSADA 2 manda o modelo parar no último ponto real, então às vezes ele
+apaga a sua linha de fechamento, e as notas são o único lugar onde ele avisa.
 
-`WARNING no <<<SLOPMONSTER-NOTES>>> line` means the model ignored the format and the whole
-reply came through as copy. Check the tail before you ship.
+`WARNING no <<<SLOPMONSTER-NOTES>>> line` significa que o modelo ignorou o formato e a
+resposta inteira veio como texto. Confira o final antes de publicar.
 
-## Step 4 — Re-lint
+## Passo 4: Repontuar
 
-Always. A frontier model is very good at removing tells and quite capable of adding new
-ones while it does. An unlinted cleanse is a coin flip.
+Sempre. Um modelo de ponta é muito bom em tirar marcas e bem capaz de colocar outras novas
+enquanto faz isso. Uma limpeza sem repontuar é cara ou coroa.
 
-## The one hard rule
+## A única regra dura
 
-**Never invent proof.** No user counts, no testimonials, no ratings, no `trusted by
-10,000 teams` unless every one is true and you can show it. If a claim needs a number you
-do not have, write `[needs number]` and move on. The linter flags number-plus-noun
-patterns on purpose: a false positive costs ten seconds, a false negative is a claim you
-cannot back. Specificity beats borrowed credibility anyway.
+**Nunca inventar prova.** Nada de contagem de usuários, depoimentos, avaliações, nem
+`trusted by 10,000 teams`, a menos que cada um seja verdade e você consiga mostrar. Se uma
+afirmação precisa de um número que você não tem, escreva `[needs number]` e siga em frente.
+O linter marca padrões de número mais substantivo de propósito: um falso positivo custa dez
+segundos, um falso negativo é uma afirmação que você não sustenta. Especificidade ganha de
+credibilidade emprestada de qualquer jeito.
 
-## Output format
+## Formato de saída
 
-Return the rewritten copy first, in full. Then a short `▎ what changed` list — at most
-five lines, each naming the tell and the fix. Never return analysis alone. Keep the
-author's meaning exactly: de-slopping is not rewriting the argument. Match the register
-you were given.
+Devolva primeiro o texto reescrito, inteiro. Depois uma lista curta `▎ o que mudou`, no
+máximo cinco linhas, cada uma nomeando a marca e a correção. Nunca devolva só a análise.
+Mantenha o sentido do autor exatamente: tirar o slop não é reescrever o argumento. Responda
+na mesma língua e no mesmo registro do texto recebido.
