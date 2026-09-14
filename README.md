@@ -4,6 +4,10 @@
 
 **Transforme texto escrito por IA em texto que uma pessoa publicaria.**
 
+## 📖 Guia de uso
+
+Guia completo (landing + passo a passo): **https://inematds.github.io/SlopMonster/guia/**
+
 Texto de IA tem cheiro. `delve`, `seamless`, `unlock`, `it's not just a tool, it's a
 journey`. O leitor já percebe, e uma página com esse cheiro é uma página em que ele
 para de confiar.
