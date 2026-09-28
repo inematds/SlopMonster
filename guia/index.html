@@ -1,13 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>SlopMonster — Texto de IA que uma pessoa publicaria</title>
-<meta name="description" content="SlopMonster dá nota de 0 a 5 a um texto escrito por IA, aponta as marcas de máquina e limpa o rascunho com um modelo rival. Linter de texto sem dependências, pronto pra CI.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<meta content="SlopMonster dá nota de 0 a 5 a um texto escrito por IA, aponta as marcas de máquina e limpa o rascunho com um modelo rival. Linter de texto sem dependências, pronto pra CI." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet"/>
 <style>
   :root{
     --bg:#0c0c10; --bg2:#14141b; --card:#16161e; --line:#272730;
@@ -90,185 +91,167 @@
   footer{padding:46px 0;text-align:center;color:var(--mut);font-size:.9rem}
   .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:.3em .8em;font-size:.78rem;color:var(--mut);margin:0 4px}
 </style>
-</head>
-<body>
-
+<link href="https://inematds.github.io/SlopMonster/guia/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/SlopMonster/guia/en/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/SlopMonster/guia/es/" hreflang="es" rel="alternate"/></head>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="./" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="en/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="es/" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
 <nav><div class="wrap">
-  <a class="brand" href="#top"><span class="emoji">👹</span> SlopMonster</a>
-  <span class="sep">|</span>
-  <span class="clubpro">
-    <a class="inema" href="https://inema.club" target="_blank" rel="noopener">INEMA.CLUB</a>
-    <span class="sep">-</span>
-    <a class="pro" href="https://inema.pro" target="_blank" rel="noopener">PRO</a>
-  </span>
-  <div class="links">
-    <a class="sec" href="#oque">O que é</a>
-    <a class="sec" href="#fluxo">Como funciona</a>
-    <a class="sec" href="#regras">As 5 regras</a>
-    <a class="sec" href="#guia">Guia de uso</a>
-    <a class="sec" href="#exemplos">Exemplos</a>
-    <button class="tgl" id="themeToggle" aria-label="Alternar tema" title="Alternar tema">🌙</button>
-    <a class="btn" href="https://github.com/inematds/SlopMonster" target="_blank" rel="noopener">GitHub</a>
-  </div>
+<a class="brand" href="#top"><span class="emoji">👹</span> SlopMonster</a>
+<span class="sep">|</span>
+<span class="clubpro">
+<a class="inema" href="https://inema.club" rel="noopener" target="_blank">INEMA.CLUB</a>
+<span class="sep">-</span>
+<a class="pro" href="https://inema.pro" rel="noopener" target="_blank">PRO</a>
+</span>
+<div class="links">
+<a class="sec" href="#oque">O que é</a>
+<a class="sec" href="#fluxo">Como funciona</a>
+<a class="sec" href="#regras">As 5 regras</a>
+<a class="sec" href="#guia">Guia de uso</a>
+<a class="sec" href="#exemplos">Exemplos</a>
+<button aria-label="Alternar tema" class="tgl" id="themeToggle" title="Alternar tema">🌙</button>
+<a class="btn" href="https://github.com/inematds/SlopMonster" rel="noopener" target="_blank">GitHub</a>
+</div>
 </div></nav>
-
 <header class="hero" id="top">
-  <div class="glow"></div>
-  <div class="wrap">
-    <div>
-      <span class="chip">Linter de texto · limpeza com modelo rival</span>
-      <h1>Texto de IA que uma <span class="amb">pessoa</span> publicaria</h1>
-      <p class="lead">Dá nota de 0 a 5 ao seu texto, aponta cada marca de máquina e pode derrubar o build. Depois um modelo de outra família limpa o rascunho.</p>
-      <div class="cta">
-        <a class="btn" href="#guia">Começar o guia</a>
-        <a class="btn ghost" href="https://github.com/inematds/SlopMonster" target="_blank" rel="noopener">Ver no GitHub</a>
-      </div>
-    </div>
-    <figure><img src="assets/hero.jpg" alt="Ilustração do SlopMonster, monstro que caça texto de IA"></figure>
-  </div>
+<div class="glow"></div>
+<div class="wrap">
+<div>
+<span class="chip">Linter de texto · limpeza com modelo rival</span>
+<h1>Texto de IA que uma <span class="amb">pessoa</span> publicaria</h1>
+<p class="lead">Dá nota de 0 a 5 ao seu texto, aponta cada marca de máquina e pode derrubar o build. Depois um modelo de outra família limpa o rascunho.</p>
+<div class="cta">
+<a class="btn" href="#guia">Começar o guia</a>
+<a class="btn ghost" href="https://github.com/inematds/SlopMonster" rel="noopener" target="_blank">Ver no GitHub</a>
+</div>
+</div>
+<figure><img alt="Ilustração do SlopMonster, monstro que caça texto de IA" src="assets/hero.jpg"/></figure>
+</div>
 </header>
-
 <section id="oque"><div class="wrap">
-  <span class="chip">O que é</span>
-  <h2>Um pontuador honesto e um limpador que não corrige a própria prova</h2>
-  <p class="sub">Texto de IA tem cheiro: <code>delve</code>, <code>seamless</code>, <code>unlock</code>, "it's not just a tool, it's a journey". O leitor percebe e para de confiar. O SlopMonster acrescenta duas coisas que as outras ferramentas pulam.</p>
-  <div class="grid g3">
-    <div class="card"><h3>📏 Nota de 0 a 5, sem opinião</h3><p>Cinco grupos de padrões, um ponto cada. Abaixo de 5/5 o comando sai com erro, então funciona como portão de CI. Desenvolvedor chama isso de linter.</p></div>
-    <div class="card"><h3>🔁 Modelo rival faz a limpeza</h3><p>Se o Claude escreveu, o GPT limpa. Se o GPT escreveu, o Claude limpa. Um modelo não escuta o próprio sotaque. O script se recusa a mandar o rascunho de volta pra mesma família.</p></div>
-    <div class="card"><h3>🧾 Nunca inventa prova</h3><p>Nada de "10.000 clientes felizes" que o negócio não tem. Qualquer número ao lado de substantivo de gente é marcado. Se o número é real, <code>--allow-proof</code> vira aviso.</p></div>
-  </div>
+<span class="chip">O que é</span>
+<h2>Um pontuador honesto e um limpador que não corrige a própria prova</h2>
+<p class="sub">Texto de IA tem cheiro: <code>delve</code>, <code>seamless</code>, <code>unlock</code>, "it's not just a tool, it's a journey". O leitor percebe e para de confiar. O SlopMonster acrescenta duas coisas que as outras ferramentas pulam.</p>
+<div class="grid g3">
+<div class="card"><h3>📏 Nota de 0 a 5, sem opinião</h3><p>Cinco grupos de padrões, um ponto cada. Abaixo de 5/5 o comando sai com erro, então funciona como portão de CI. Desenvolvedor chama isso de linter.</p></div>
+<div class="card"><h3>🔁 Modelo rival faz a limpeza</h3><p>Se o Claude escreveu, o GPT limpa. Se o GPT escreveu, o Claude limpa. Um modelo não escuta o próprio sotaque. O script se recusa a mandar o rascunho de volta pra mesma família.</p></div>
+<div class="card"><h3>🧾 Nunca inventa prova</h3><p>Nada de "10.000 clientes felizes" que o negócio não tem. Qualquer número ao lado de substantivo de gente é marcado. Se o número é real, <code>--allow-proof</code> vira aviso.</p></div>
+</div>
 </div></section>
-
 <section id="fluxo"><div class="wrap">
-  <span class="chip">Como funciona</span>
-  <h2>O ciclo de quatro passos</h2>
-  <p class="sub">O pontuador tem a primeira e a última palavra, porque o pontuador é honesto e o modelo é persuasivo. "Quase limpo" é como uma página acaba soando igual a todas as outras páginas de IA da internet.</p>
-  <div class="flow">
-    <span>1 · Pontuar (deslop.py)</span><span class="arr">→</span>
-    <span>2 · Reescrever em 3 passadas</span><span class="arr">→</span>
-    <span>3 · Limpar com modelo rival (cleanse.sh)</span><span class="arr">→</span>
-    <span>4 · Repontuar, só publica em 5/5</span>
-  </div>
-  <div class="grid g3" style="margin-top:28px">
-    <div class="card"><h3>Passada 1 · vocabulário</h3><p>Mata <code>delve</code>, <code>seamless</code>, <code>robust</code>, <code>unlock</code>, <code>elevate</code>, <code>leverage</code>. Troca por uma palavra mais simples, não por sinônimo chique.</p></div>
-    <div class="card"><h3>Passada 2 · formas</h3><p>Mata <code>not just X, but Y</code>, a lista de três por reflexo, pilha de travessões, ressalvas empilhadas e o resumo de fechamento que ninguém pediu.</p></div>
-    <div class="card"><h3>Passada 3 · uma pessoa de volta</h3><p>Um número específico por afirmação. Frases de tamanhos bem diferentes. Uma aresta: uma contração, um fragmento, uma frase começando com "E".</p></div>
-  </div>
+<span class="chip">Como funciona</span>
+<h2>O ciclo de quatro passos</h2>
+<p class="sub">O pontuador tem a primeira e a última palavra, porque o pontuador é honesto e o modelo é persuasivo. "Quase limpo" é como uma página acaba soando igual a todas as outras páginas de IA da internet.</p>
+<div class="flow">
+<span>1 · Pontuar (deslop.py)</span><span class="arr">→</span>
+<span>2 · Reescrever em 3 passadas</span><span class="arr">→</span>
+<span>3 · Limpar com modelo rival (cleanse.sh)</span><span class="arr">→</span>
+<span>4 · Repontuar, só publica em 5/5</span>
+</div>
+<div class="grid g3" style="margin-top:28px">
+<div class="card"><h3>Passada 1 · vocabulário</h3><p>Mata <code>delve</code>, <code>seamless</code>, <code>robust</code>, <code>unlock</code>, <code>elevate</code>, <code>leverage</code>. Troca por uma palavra mais simples, não por sinônimo chique.</p></div>
+<div class="card"><h3>Passada 2 · formas</h3><p>Mata <code>not just X, but Y</code>, a lista de três por reflexo, pilha de travessões, ressalvas empilhadas e o resumo de fechamento que ninguém pediu.</p></div>
+<div class="card"><h3>Passada 3 · uma pessoa de volta</h3><p>Um número específico por afirmação. Frases de tamanhos bem diferentes. Uma aresta: uma contração, um fragmento, uma frase começando com "E".</p></div>
+</div>
 </div></section>
-
 <section id="regras"><div class="wrap">
-  <span class="chip">As 5 regras</span>
-  <h2>O que o pontuador caça</h2>
-  <p class="sub">Cai em um grupo e perde um ponto. Quatro grupos tiram o sotaque de IA. O quinto pergunta se a linha vende alguma coisa.</p>
-  <div class="grid g3">
-    <div class="card"><span class="num">1</span><h3>Vocabulário de IA</h3><p>Duas listas. A primeira casa pela raiz: <code>elevate</code> pega <code>elevates</code> e <code>elevating</code>. A segunda casa palavra por palavra, pra não marcar "we craft furniture by hand".</p></div>
-    <div class="card"><span class="num">2</span><h3>Construções de IA</h3><p>17 formas de frase, não palavras. <code>not just X, but Y</code>, <code>say goodbye to</code>, <code>that's where X comes in</code>, e perguntas que o autor responde sozinho.</p></div>
-    <div class="card"><span class="num">3</span><h3>Cadência de pontuação</h3><p>Dois travessões dentro de uma janela de 220 caracteres. Ponto e vírgula só acima de um piso proporcional ao tamanho da página.</p></div>
-    <div class="card"><span class="num">4</span><h3>Ritmo de três</h3><p><code>faster, smarter, and better</code>. Estreito de propósito: só dispara em três palavras soltas com vírgula de Oxford, ou numa frase curta fechando a oração.</p></div>
-    <div class="card"><span class="num">5</span><h3>Vendas e prova inventada</h3><p>Número ao lado de substantivo de gente, tipo <code>10,000+ happy users</code>. Dispara fácil de propósito: um alarme falso custa dez segundos, um erro deixa uma mentira no seu site.</p></div>
-    <div class="card"><span class="num">!</span><h3>Só em inglês</h3><p>O catálogo é só em inglês. Texto em português recebe 5/5 porque o pontuador não lê a língua, não porque está limpo. A limpeza com modelo rival funciona em qualquer língua.</p></div>
-  </div>
+<span class="chip">As 5 regras</span>
+<h2>O que o pontuador caça</h2>
+<p class="sub">Cai em um grupo e perde um ponto. Quatro grupos tiram o sotaque de IA. O quinto pergunta se a linha vende alguma coisa.</p>
+<div class="grid g3">
+<div class="card"><span class="num">1</span><h3>Vocabulário de IA</h3><p>Duas listas. A primeira casa pela raiz: <code>elevate</code> pega <code>elevates</code> e <code>elevating</code>. A segunda casa palavra por palavra, pra não marcar "we craft furniture by hand".</p></div>
+<div class="card"><span class="num">2</span><h3>Construções de IA</h3><p>17 formas de frase, não palavras. <code>not just X, but Y</code>, <code>say goodbye to</code>, <code>that's where X comes in</code>, e perguntas que o autor responde sozinho.</p></div>
+<div class="card"><span class="num">3</span><h3>Cadência de pontuação</h3><p>Dois travessões dentro de uma janela de 220 caracteres. Ponto e vírgula só acima de um piso proporcional ao tamanho da página.</p></div>
+<div class="card"><span class="num">4</span><h3>Ritmo de três</h3><p><code>faster, smarter, and better</code>. Estreito de propósito: só dispara em três palavras soltas com vírgula de Oxford, ou numa frase curta fechando a oração.</p></div>
+<div class="card"><span class="num">5</span><h3>Vendas e prova inventada</h3><p>Número ao lado de substantivo de gente, tipo <code>10,000+ happy users</code>. Dispara fácil de propósito: um alarme falso custa dez segundos, um erro deixa uma mentira no seu site.</p></div>
+<div class="card"><span class="num">!</span><h3>Só em inglês</h3><p>O catálogo é só em inglês. Texto em português recebe 5/5 porque o pontuador não lê a língua, não porque está limpo. A limpeza com modelo rival funciona em qualquer língua.</p></div>
+</div>
 </div></section>
-
 <section id="pre"><div class="wrap">
-  <span class="chip">Pré-requisitos</span>
-  <h2>Python e, se quiser a limpeza, uma CLI de IA</h2>
-  <p class="sub">O pontuador é Python puro, biblioteca padrão, sem dependência nenhuma. A limpeza usa a CLI <code>codex</code> ou <code>claude</code>. Sem nenhuma das duas, o script imprime o prompt pra você colar num chat.</p>
-  <div class="grid g3">
-    <div class="card"><h3>Python 3</h3><p>Qualquer versão 3 recente. O CI do projeto roda em 3.11.</p><pre><span class="c"># confere a versão</span>
+<span class="chip">Pré-requisitos</span>
+<h2>Python e, se quiser a limpeza, uma CLI de IA</h2>
+<p class="sub">O pontuador é Python puro, biblioteca padrão, sem dependência nenhuma. A limpeza usa a CLI <code>codex</code> ou <code>claude</code>. Sem nenhuma das duas, o script imprime o prompt pra você colar num chat.</p>
+<div class="grid g3">
+<div class="card"><h3>Python 3</h3><p>Qualquer versão 3 recente. O CI do projeto roda em 3.11.</p><pre><span class="c"># confere a versão</span>
 <span class="k">python3</span> --version</pre></div>
-    <div class="card"><h3>Clonar o repo</h3><p>Sem instalação. Os scripts rodam direto da pasta.</p><pre><span class="k">git clone</span> <span class="s">https://github.com/inematds/SlopMonster</span>
+<div class="card"><h3>Clonar o repo</h3><p>Sem instalação. Os scripts rodam direto da pasta.</p><pre><span class="k">git clone</span> <span class="s">https://github.com/inematds/SlopMonster</span>
 <span class="k">cd</span> SlopMonster</pre></div>
-    <div class="card"><h3>CLI rival (opcional)</h3><p>Pra limpeza automática: <code>codex</code> se você escreve com Claude, <code>claude</code> se escreve com GPT.</p><pre><span class="c"># uma das duas, conforme a família do rascunho</span>
+<div class="card"><h3>CLI rival (opcional)</h3><p>Pra limpeza automática: <code>codex</code> se você escreve com Claude, <code>claude</code> se escreve com GPT.</p><pre><span class="c"># uma das duas, conforme a família do rascunho</span>
 <span class="k">which</span> codex claude</pre></div>
-  </div>
+</div>
 </div></section>
-
 <section id="guia"><div class="wrap">
-  <span class="chip">Guia de uso · passo a passo</span>
-  <h2>Do rascunho ao 5/5</h2>
-  <p class="sub">Todos os comandos são reais e rodam da raiz do repo. O exemplo do passo 1 dá 3/5 de propósito.</p>
-
-  <div class="step"><div class="b">1</div><div>
-    <h3>Pontuar um trecho</h3>
-    <p>Passe o texto direto. O pontuador nomeia cada marca e sai com código 1 quando fica abaixo de 5.</p>
+<span class="chip">Guia de uso · passo a passo</span>
+<h2>Do rascunho ao 5/5</h2>
+<p class="sub">Todos os comandos são reais e rodam da raiz do repo. O exemplo do passo 1 dá 3/5 de propósito.</p>
+<div class="step"><div class="b">1</div><div>
+<h3>Pontuar um trecho</h3>
+<p>Passe o texto direto. O pontuador nomeia cada marca e sai com código 1 quando fica abaixo de 5.</p>
 <pre><span class="k">python3</span> tools/deslop.py --text <span class="s">"It's not just a tool, it's a game-changing journey."</span>
 <span class="c"># → score 3/5, aponta as duas marcas, exit 1</span></pre>
-  </div></div>
-
-  <div class="step"><div class="b">2</div><div>
-    <h3>Pontuar uma página ou um markdown</h3>
-    <p>Em HTML ele lê só o que o visitante enxerga. Em markdown, pula trechos de código, blocos cercados e texto riscado, porque literal não é texto de venda.</p>
+</div></div>
+<div class="step"><div class="b">2</div><div>
+<h3>Pontuar uma página ou um markdown</h3>
+<p>Em HTML ele lê só o que o visitante enxerga. Em markdown, pula trechos de código, blocos cercados e texto riscado, porque literal não é texto de venda.</p>
 <pre><span class="k">python3</span> tools/deslop.py index.html
 <span class="k">python3</span> tools/deslop.py index.html --view hero   <span class="c"># um elemento pelo id</span>
 <span class="k">python3</span> tools/deslop.py README.md</pre>
-  </div></div>
-
-  <div class="step"><div class="b">3</div><div>
-    <h3>Limpar com um modelo rival</h3>
-    <p>O texto limpo sai no stdout, as notas do que mudou saem no stderr. Leia as notas: às vezes o modelo apaga a sua linha de fechamento e só avisa ali.</p>
+</div></div>
+<div class="step"><div class="b">3</div><div>
+<h3>Limpar com um modelo rival</h3>
+<p>O texto limpo sai no stdout, as notas do que mudou saem no stderr. Leia as notas: às vezes o modelo apaga a sua linha de fechamento e só avisa ali.</p>
 <pre><span class="k">tools/cleanse.sh</span> rascunho.md &gt; limpo.md 2&gt; notas.txt
 <span class="c"># escrevendo com GPT? force o Claude como limpador:</span>
 <span class="k">DESLOP_WRITER=gpt</span> tools/cleanse.sh rascunho.md &gt; limpo.md</pre>
-  </div></div>
-
-  <div class="step"><div class="b">4</div><div>
-    <h3>Repontuar, sempre</h3>
-    <p>Um modelo de ponta é ótimo em tirar marcas e bem capaz de colocar outras novas enquanto faz isso. Limpeza sem repontuar é cara ou coroa.</p>
+</div></div>
+<div class="step"><div class="b">4</div><div>
+<h3>Repontuar, sempre</h3>
+<p>Um modelo de ponta é ótimo em tirar marcas e bem capaz de colocar outras novas enquanto faz isso. Limpeza sem repontuar é cara ou coroa.</p>
 <pre><span class="k">python3</span> tools/deslop.py --text <span class="s">"$(cat limpo.md)"</span>
 <span class="c"># só publica em 5/5</span></pre>
-  </div></div>
-
-  <div class="step"><div class="b">5</div><div>
-    <h3>Números reais? Libere a regra de prova</h3>
-    <p>Se o número é verdadeiro e você consegue provar, a regra 5 vira aviso e ainda imprime os acertos pra você conferir.</p>
+</div></div>
+<div class="step"><div class="b">5</div><div>
+<h3>Números reais? Libere a regra de prova</h3>
+<p>Se o número é verdadeiro e você consegue provar, a regra 5 vira aviso e ainda imprime os acertos pra você conferir.</p>
 <pre><span class="k">python3</span> tools/deslop.py index.html --allow-proof</pre>
-  </div></div>
-
-  <div class="step"><div class="b">6</div><div>
-    <h3>Travar o build no CI</h3>
-    <p>O workflow do repo roda os testes e pontua o texto publicado a cada push. Copie pro seu repo e aponte pro arquivo com o seu texto.</p>
+</div></div>
+<div class="step"><div class="b">6</div><div>
+<h3>Travar o build no CI</h3>
+<p>O workflow do repo roda os testes e pontua o texto publicado a cada push. Copie pro seu repo e aponte pro arquivo com o seu texto.</p>
 <pre><span class="k">cp</span> .github/workflows/slop.yml &lt;seu-repo&gt;/.github/workflows/
 <span class="c"># dentro do yml, troque examples/gate-sample.txt pelo seu arquivo</span>
 <span class="k">python3</span> tools/deslop.py --text <span class="s">"$(cat examples/gate-sample.txt)"</span></pre>
-  </div></div>
-
-  <div class="step"><div class="b">7</div><div>
-    <h3>Usar como skill no Claude Code</h3>
-    <p>Copie a pasta pra skills e chame. O <code>SKILL.md</code> é markdown puro, então serve pro Codex e outros agentes também.</p>
+</div></div>
+<div class="step"><div class="b">7</div><div>
+<h3>Usar como skill no Claude Code</h3>
+<p>Copie a pasta pra skills e chame. O <code>SKILL.md</code> é markdown puro, então serve pro Codex e outros agentes também.</p>
 <pre><span class="k">cp -r</span> SlopMonster ~/.claude/skills/slopmonster/
 <span class="c"># no Claude Code: /slopmonster, "tira o slop disso", "isso parece IA?"</span></pre>
-  </div></div>
-
-  <div class="step"><div class="b">8</div><div>
-    <h3>Mexeu numa regex? Rode a regressão</h3>
-    <p>O catálogo casa pela raiz da palavra, e um atalho de stemming errado deixa o pontuador meio cego em silêncio. A suíte é o que pega isso.</p>
+</div></div>
+<div class="step"><div class="b">8</div><div>
+<h3>Mexeu numa regex? Rode a regressão</h3>
+<p>O catálogo casa pela raiz da palavra, e um atalho de stemming errado deixa o pontuador meio cego em silêncio. A suíte é o que pega isso.</p>
 <pre><span class="k">python3</span> tools/test_deslop.py
 <span class="k">bash</span> tools/test_cleanse.sh</pre>
-  </div></div>
+</div></div>
 </div></section>
-
 <section id="exemplos"><div class="wrap">
-  <span class="chip">Exemplos</span>
-  <h2>Antes e depois de verdade</h2>
-  <p class="sub">Linhas reais do site da Ridgeline Roofing e uma rodada sem edição na home do Jasper.ai, que foi de 3/5 pra 5/5 numa passada, com sentido intacto e nada inventado. Registros completos em <code>examples/</code> no repo.</p>
-  <div class="ex">
-    <figure><img src="assets/rule-1-vocab.jpg" alt="Regra 1, vocabulário de IA"><figcaption><s>We leverage industry-leading materials to deliver unparalleled protection.</s><br><strong>We source materials from manufacturers who test for wind, hail and sun.</strong></figcaption></figure>
-    <figure><img src="assets/rule-2-phrases.jpg" alt="Regra 2, construções de IA"><figcaption><s>Not just a roof, but peace of mind.</s><br><strong>A written scope and a fixed number before anyone climbs a ladder.</strong></figcaption></figure>
-    <figure><img src="assets/rule-5-conversion.jpg" alt="Regra 5, prova inventada"><figcaption><s>Loved by 10,000+ happy homeowners.</s><br><strong>Roofing, and only roofing, since 2001.</strong> Uma data não tem como discutir.</figcaption></figure>
-    <figure><img src="assets/mascotes.jpg" alt="Os cinco mascotes do SlopMonster, um por regra"><figcaption>Os cinco mascotes, um por regra. O README do repo passa no próprio pontuador com 5/5.</figcaption></figure>
-  </div>
+<span class="chip">Exemplos</span>
+<h2>Antes e depois de verdade</h2>
+<p class="sub">Linhas reais do site da Ridgeline Roofing e uma rodada sem edição na home do Jasper.ai, que foi de 3/5 pra 5/5 numa passada, com sentido intacto e nada inventado. Registros completos em <code>examples/</code> no repo.</p>
+<div class="ex">
+<figure><img alt="Regra 1, vocabulário de IA" src="assets/rule-1-vocab.jpg"/><figcaption><s>We leverage industry-leading materials to deliver unparalleled protection.</s><br/><strong>We source materials from manufacturers who test for wind, hail and sun.</strong></figcaption></figure>
+<figure><img alt="Regra 2, construções de IA" src="assets/rule-2-phrases.jpg"/><figcaption><s>Not just a roof, but peace of mind.</s><br/><strong>A written scope and a fixed number before anyone climbs a ladder.</strong></figcaption></figure>
+<figure><img alt="Regra 5, prova inventada" src="assets/rule-5-conversion.jpg"/><figcaption><s>Loved by 10,000+ happy homeowners.</s><br/><strong>Roofing, and only roofing, since 2001.</strong> Uma data não tem como discutir.</figcaption></figure>
+<figure><img alt="Os cinco mascotes do SlopMonster, um por regra" src="assets/mascotes.jpg"/><figcaption>Os cinco mascotes, um por regra. O README do repo passa no próprio pontuador com 5/5.</figcaption></figure>
+</div>
 </div></section>
-
 <footer>
-  <div class="wrap">
-    <div class="pill">Python 3 · stdlib</div><div class="pill">Bash</div><div class="pill">GitHub Actions</div><div class="pill">Skill Claude Code / Codex</div>
-    <p style="margin-top:18px">SlopMonster · MIT · catálogo baseado no "Signs of AI writing" da Wikipedia ·
+<div class="wrap">
+<div class="pill">Python 3 · stdlib</div><div class="pill">Bash</div><div class="pill">GitHub Actions</div><div class="pill">Skill Claude Code / Codex</div>
+<p style="margin-top:18px">SlopMonster · MIT · catálogo baseado no "Signs of AI writing" da Wikipedia ·
       <a href="https://github.com/inematds/SlopMonster">inematds/SlopMonster</a> ·
       <a href="https://inema.club">INEMA.CLUB</a></p>
-  </div>
+</div>
 </footer>
-
 <script>
   (function(){
     var KEY='slopmonster-theme';

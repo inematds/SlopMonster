@@ -1,5 +1,7 @@
 # SlopMonster
 
+**🇧🇷 [Português](README.md) · 🇺🇸 [English](README.en.md) · 🇪🇸 [Español](README.es.md)**
+
 ![Os cinco mascotes do SlopMonster enfileirados, um para cada regra que ele pontua](docs/img/hero.png)
 
 **Transforme texto escrito por IA em texto que uma pessoa publicaria.**
